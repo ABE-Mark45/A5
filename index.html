@@ -8,22 +8,15 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         <script type="text/javascript" src="index.js"></script>
-
+        <link rel="stylesheet" href="style.css">
         <script id="list_element" type="text/template">
             <li class="list-group-item" id='polygon{{pol_id}}'>
                 <div class="row">
                     <h4 class="col-9">Polygon {{pol_id}}</h4>
-                    <button class="btn addPoints" id="add{{pol_id}}">Add Points</button>
                 </div>
 
-                <div class="row">
-                    <label class="col-2">X</label>
-                    <input class="form-control col-4" id="x{{pol_id}}"/>
-                    <label class="col-2">Y</label>
-                    <input class="form-control col-4" id="y{{pol_id}}"/>
-                </div>
-                <div class="row">
-                    <table class="table table-striped table-hover col-6">
+                <div class="container-fluid">
+                    <table class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>X</th>
@@ -31,47 +24,100 @@
                             </tr>
                         </thead>
                         <tbody id="table_body{{pol_id}}">
-                            <tr>
-                            </tr>
                         </tbody>
                     </table>
 
-                    <table class="table table-striped table-hover col-6">
-                            <thead>
-                                <tr>
-                                    <th>X'</th>
-                                    <th>Y'</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table_transformation{{pol_id}}">
-                                <tr>
-                                </tr>
-                            </tbody>
-                        </table>
 
 
                 </div>
-                <button class="btn rotateBtn" id="rotate{{pol_id}}">Rotate</button>
                 <button class="btn plotBtn" id="plot{{pol_id}}">Plot</button>
-                <input class = "form-control" id="angle{{pol_id}}"/>
             </li>
         
+        </script>
+        
+        <script type="text/template" id="matrix_table">
+            <table class="table table-striped table-hover">
+                <tbody>
+                    <tr>
+                        {{#x1}}
+                        <td>{{.}}</td>
+                        {{/x1}}
+                    </tr>
+                    <tr>
+                        {{#x2}}
+                        <td>{{.}}</td>
+                        {{/x2}}
+                    </tr>
+                    <tr>
+                        {{#x3}}
+                        <td>{{.}}</td>
+                        {{/x3}}
+                    </tr>
+
+                </tbody>
+            </table>
         </script>
 
     </head>
     <body>
+        <nav class="navbar navbar-light bg-light" style="bottom: 0; position: absolute; width: 100%; height: 54px;">
+            <div class="form-inline mb-2">
+                <input class="form-control mr-sm-2" placeholder="Vertices" id="numVertices" style="width: 100px;">
+                <button class="btn btn-primary" id="addPolygons">Add Polygons</button>
+            </div>
+            <div class="input-group mb-2" style="width: 150px;">
+                <input id="angle" class="form-control" placeholder="Angle">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success" id="rotateBtn">Rotate</button>
+                </div>
+            </div>
+
+            <div class="input-group mb-2" style="width: 170px;">
+                <input class="form-control" id="x" placeholder="X">
+                <input class="form-control" id="y" placeholder="Y">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success" id="translate">Translate</button>
+                </div>    
+            </div>
+
+            <div class="input-group mb-2" style="width: 150px;">
+                <input class="form-control" id="fx" placeholder="fx">
+                <input class="form-control" id="fy" placeholder="fy">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success" id="scale">scale</button>
+                </div>    
+            </div>
+
+            <button class="btn btn-success mb-2" id="reflectX">X Reflect</button>
+            <button class="btn btn-success mb-2" id="reflectY">Y Reflect</button>
+            <button class="btn btn-success mb-2" id="reflectXY">y=x Reflect</button>
+            <button class="btn btn-success mb-2" id="reflectXYneg">y=-x Reflect</button>
+
+
+            <div class="input-group mb-3" style="width: 150px;">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Polygon</span>
+                </div>
+                <input class="form-control" placeholder="ID" id="polygonID" value="1">
+            </div>
+
+
+        </nav>
+        
         <div class="container-fluid">
             <div class="row">
 
-                <div class="col-3">
-                    <button class="btn" id="addPolygons">Add Polygons</button>
+                <div  id="my_menu">
                     <ul class="list-group" id="polygons">
                     </ul>
                 </div>
 
-                <div id="graph" class="col-9">
-                    <button id="mybtn" class="btn">Randomize!</button>
+                <div id="graph">
                 </div>
+
+                <div id="matrix">
+
+                    </div>
             </div>
         </div>
     </body>
