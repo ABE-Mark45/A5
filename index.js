@@ -80,7 +80,17 @@ window.onload = function() {
                     sum.data[i][j] = this.data[i][j] * x;
             return sum;
         }
+
+        roundMatrix()
+        {
+            for(var i = 0; i < this.rows;i++)
+                for(var j = 0; j < this.columns;j++)
+                    this.data[i][j] = parseFloat(this.data[i][j].toFixed(6));
+        }
+    
     }
+
+
 
     function identityMatrix(n)
     {
@@ -94,8 +104,8 @@ window.onload = function() {
         var radians = (angle * Math.PI) / 180;
         var rot = new Matrix(3, 3);
         rot.data[0][0] = Math.cos(radians);
-        rot.data[0][1] = -1 * Math.sin(radians);
-        rot.data[1][0] = Math.sin(radians);
+        rot.data[0][1] = Math.sin(radians);
+        rot.data[1][0] = -1 * Math.sin(radians);
         rot.data[1][1] = Math.cos(radians);
         rot.data[2][2] = 1;
         return rot;
@@ -187,12 +197,12 @@ window.onload = function() {
         var backwardTranslation = createTranslationMatrix(x, y);
         var trans_matrix = backwardTranslation.multiply(rot_matrix).multiply(forwardTranslation);
 
+        var points_after_transformation = trans_matrix.multiply(points);
+        points_after_transformation.roundMatrix();
+        animateAndChange(points_after_transformation, polygonId);
+        trans_matrix.roundMatrix();
         var element_text = Mustache.render(matrix_template, {x1: trans_matrix.data[0], x2: trans_matrix.data[1], x3: trans_matrix.data[2]});
         $('#matrix').html(element_text);
-
-        var points_after_transformation = trans_matrix.multiply(points);
-
-        animateAndChange(points_after_transformation, polygonId);
         
     });
 
@@ -213,6 +223,8 @@ window.onload = function() {
         Plotly.newPlot(graph, Polygons_2D.slice(1), layout, {
             showSendToCloud: true
         });
+
+        $(this).remove();
     });
 
     $('#translate').on('click', function(event)
