@@ -130,7 +130,7 @@ window.onload = function() {
             range: [-8, 8]
         },
         width: 1000,
-        height: 900
+        height: 1000
     };
 
     function changePolyPoints(id)
@@ -279,7 +279,7 @@ window.onload = function() {
         var points = new Matrix(Polygons_2D[polygonId]);
 
         var reflectMatrix = identityMatrix(3);
-        reflectMatrix.data[0][0] = -1;
+        reflectMatrix.data[1][1] = -1;
 
         var element_text = Mustache.render(matrix_template, {x1: reflectMatrix.data[0], x2: reflectMatrix.data[1], x3: reflectMatrix.data[2]});
         $('#matrix').html(element_text);
@@ -296,7 +296,7 @@ window.onload = function() {
         var points = new Matrix(Polygons_2D[polygonId]);
 
         var reflectMatrix = identityMatrix(3);
-        reflectMatrix.data[1][1] = -1;
+        reflectMatrix.data[0][0] = -1;
 
         var element_text = Mustache.render(matrix_template, {x1: reflectMatrix.data[0], x2: reflectMatrix.data[1], x3: reflectMatrix.data[2]});
         $('#matrix').html(element_text);
